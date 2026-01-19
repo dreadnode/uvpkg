@@ -37,7 +37,7 @@ JUNK_PATTERNS = [
     "uvpkg.lock",
 ]
 
-MANIFEST_FILENAMES = ["uvpkg.yml", "uvpkg.yaml", "openpackage.yml", "openpackage.yaml"]
+MANIFEST_FILENAMES = ["openpackage.yml", "openpackage.yaml", "uvpkg.yml", "uvpkg.yaml"]
 
 
 def is_junk(path: Path) -> bool:
@@ -113,7 +113,7 @@ class PackageManager:
         """Load a package from a local directory."""
         manifest_path = self._find_manifest(path)
         if manifest_path is None:
-            raise FileNotFoundError(f"No uvpkg.yml found in {path}")
+            raise FileNotFoundError(f"No openpackage.yml found in {path}")
 
         manifest = self._parse_manifest(manifest_path)
 
@@ -238,7 +238,7 @@ class PackageManager:
         pkg_dir.mkdir(parents=True, exist_ok=True)
 
         # Write manifest
-        manifest_path = pkg_dir / "uvpkg.yml"
+        manifest_path = pkg_dir / "openpackage.yml"
         manifest_data = package.manifest.model_dump(by_alias=True, exclude_none=True)
         with open(manifest_path, "w") as f:
             yaml.dump(manifest_data, f, default_flow_style=False, sort_keys=False)
@@ -349,7 +349,7 @@ class PackageManager:
         )
 
         # Create manifest file
-        manifest_path = directory / "uvpkg.yml"
+        manifest_path = directory / "openpackage.yml"
         manifest_data = manifest.model_dump(by_alias=True, exclude_none=True)
         with open(manifest_path, "w") as f:
             yaml.dump(manifest_data, f, default_flow_style=False, sort_keys=False)
@@ -370,7 +370,7 @@ class PackageManager:
     # --- Workspace Manifest ---
 
     def load_workspace_manifest(self, workspace: Path) -> PackageManifest | None:
-        """Load the workspace manifest (uvpkg.yml in workspace root)."""
+        """Load the workspace manifest (openpackage.yml in workspace root)."""
         manifest_path = self._find_manifest(workspace)
         if manifest_path is None:
             return None
@@ -378,14 +378,14 @@ class PackageManager:
 
     def save_workspace_manifest(self, workspace: Path, manifest: PackageManifest) -> Path:
         """Save the workspace manifest."""
-        manifest_path = workspace / "uvpkg.yml"
+        manifest_path = workspace / "openpackage.yml"
         manifest_data = manifest.model_dump(by_alias=True, exclude_none=True)
         with open(manifest_path, "w") as f:
             yaml.dump(manifest_data, f, default_flow_style=False, sort_keys=False)
         return manifest_path
 
     def init_workspace(self, workspace: Path, name: str | None = None) -> PackageManifest:
-        """Initialize a workspace with a uvpkg.yml manifest."""
+        """Initialize a workspace with an openpackage.yml manifest."""
         if name is None:
             name = workspace.name
 

@@ -49,17 +49,17 @@ uvpkg list
 # Uninstall a package
 uvpkg uninstall my-rules
 
-# Sync all packages from uvpkg.yml
+# Sync all packages from openpackage.yml
 uvpkg sync
 ```
 
 ## Package Structure
 
-A uvpkg package is a directory with a `uvpkg.yml` manifest:
+A uvpkg package is a directory with an `openpackage.yml` manifest:
 
 ```
 my-package/
-├── uvpkg.yml           # Package manifest
+├── openpackage.yml           # Package manifest
 ├── rules/              # Coding rules (markdown)
 │   └── style.md
 ├── commands/           # Custom commands
@@ -68,7 +68,7 @@ my-package/
 └── CLAUDE.md           # Claude-specific instructions
 ```
 
-### Manifest (uvpkg.yml)
+### Manifest (openpackage.yml)
 
 ```yaml
 name: my-package
@@ -108,12 +108,12 @@ packages:
 uvpkg new <name>           Create a new package
 uvpkg install [source]     Install a package (or all from manifest)
 uvpkg uninstall <name>     Uninstall a package
-uvpkg sync                 Sync all packages from uvpkg.yml
+uvpkg sync                 Sync all packages from openpackage.yml
 uvpkg list                 List installed packages
 uvpkg list --cached        List cached packages
 uvpkg status               Show installation status
 uvpkg platforms            List supported platforms
-uvpkg init                 Initialize workspace with uvpkg.yml
+uvpkg init                 Initialize workspace with openpackage.yml
 uvpkg show <name>          Show package details
 uvpkg delete <name>        Delete from cache
 ```

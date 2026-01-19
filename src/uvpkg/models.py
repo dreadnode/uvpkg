@@ -62,7 +62,7 @@ class PackageRepository(BaseModel):
 
 class PackageManifest(BaseModel):
     """
-    The uvpkg.yml manifest file schema.
+    The openpackage.yml manifest file schema.
 
     Defines package metadata and dependencies.
     """

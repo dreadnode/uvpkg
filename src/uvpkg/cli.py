@@ -89,7 +89,7 @@ def install(
     """Install a package to the workspace.
 
     SOURCE can be a package name, local path, or git URL.
-    If no source is provided, installs all packages from uvpkg.yml.
+    If no source is provided, installs all packages from openpackage.yml.
     """
     cwd: Path = ctx.obj["cwd"]
     manager: PackageManager = ctx.obj["manager"]
@@ -171,7 +171,7 @@ def uninstall(ctx: click.Context, package_name: str) -> None:
 @cli.command()
 @click.pass_context
 def sync(ctx: click.Context) -> None:
-    """Sync all packages from uvpkg.yml to workspace."""
+    """Sync all packages from openpackage.yml to workspace."""
     ctx.invoke(install)
 
 
@@ -263,18 +263,19 @@ def platforms(ctx: click.Context) -> None:
 @click.option("--name", "-n", help="Workspace name (defaults to directory name)")
 @click.pass_context
 def init(ctx: click.Context, name: str | None) -> None:
-    """Initialize a workspace with uvpkg.yml."""
+    """Initialize a workspace with openpackage.yml."""
     cwd: Path = ctx.obj["cwd"]
     manager: PackageManager = ctx.obj["manager"]
 
-    manifest_path = cwd / "uvpkg.yml"
-    if manifest_path.exists():
-        console.print("[yellow]uvpkg.yml already exists[/yellow]")
-        return
+    # Check for existing manifests (both new and legacy names)
+    for manifest_name in ["openpackage.yml", "openpackage.yaml", "uvpkg.yml", "uvpkg.yaml"]:
+        if (cwd / manifest_name).exists():
+            console.print(f"[yellow]{manifest_name} already exists[/yellow]")
+            return
 
     manifest = manager.init_workspace(cwd, name)
     console.print(f"[green]Initialized workspace:[/green] {manifest.name}")
-    console.print(f"  Created: {manifest_path}")
+    console.print(f"  Created: {cwd / 'openpackage.yml'}")
 
 
 @cli.command()
